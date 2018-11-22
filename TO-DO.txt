@@ -1,0 +1,81 @@
+
+	Must Have (bare minimum):
+Insel.
+Wasser.
+Baum.
+Blätter.
+Wolken.
+Sonne.
+Bewegbare Kamera.
+
+	All diese Dinge haben aber einige Level an "Awesomeness", 
+	welche oben draufstacken und von denen ich gerne 
+	(zumindest bis Ende des Semesters) einen Großteil bis alle erreichen würde!
+
+Global:
+Zeitverlauf, der im hell strahlenden Sommer anfängt.
+Die Szene muss zu diesem Zeitpunkt schon so cool sein, dass die Menge nicht anders kann, als zu "Ahhhh"en und zu "Ohhhh"en!
+Dann wird es windiger und die Wolken färben sich dunkel und ein Sturm zieht auf (Regen bis Gewitter).
+Entweder lässt dieser dann nach, die Blätter färben sich und fallen von den Ästen, ehe der Schnee fällt, oder aber der Laubfall geschieht schon vor dem Regen, der dann in Schnee übergeht.
+Im Winter soll das Wasser gefrieren und die Schneeflocken auf dem Boden liegenbleiben und die Landschaft in Weiß tauchen.
+Mit Beginn des Frühlings schmilzt alles frostige und die Knospen sprießen an den Bäumen und werden im strahlenden Sonnenschein zu Blättern.
+[Ich hab mir überlegt, dass wir, je nachdem wie fließend und fancy die Animationen uns am Ende gelingen, jeder Jahreszeit eine Dauer zuweisen, ehe es weiterschaltet.
+Gleichzeitig soll man aber als User per Tastendruck den Jahreszeitenwechsel beschleunigen/starten können... Da müssen wir mal schauen, wie wir das möglichst elegant und flüßig hinbekommen.]
+
+Insel: 
+Nahe am Wasser sandiger Strand. 
+Je höher, desto felsiger wird es. 
+Auf Erdboden Baumwuchs möglich.
+
+Wasser:
+Wellenbewegungen
+Wellenbewegungen in Abhängigkeit der Windstärke
+Im Winter zufrierendes Eis (wird weiß und weniger durchscheinend und am Ende völlig erstarrt)
+Blätter die aufs Wasser fallen, sollen einen Moment an der Oberfläche schwimmen, ehe sie untergehen
+
+Baum:
+Verschiedene, von uns/vom User auswählbare Baumsorten.
+Diese sollen automatisch generiert und in der Szene verteilt werden (Arbeite grade an einer Funktion, die uns eine Fichtentanne ausspucken soll)
+Größen und Farbverstellbar
+
+Blätter:
+Blätter verfärben sich und fallen, leicht im Wind schwingend, zu Boden.
+Blätter bleiben eine kurze Weile auf dem Boden liegen, ehe sie verschwinden (fade to nothing).
+Übergang von Knospen zu Blättern.
+
+Wolken:
+Von Windrichtung und Stärke beeinflusste Bewegungen am Himmel.
+Von außerhalb der Szene werden neue Wolken generiert und treiben unablässig über den Himmel.
+
+Sonne:
+Lichtquelle mit fanzy Effekten!
+Guckt die Kamera direkt rein -> Lensflares like Roddenberry!
+Verdeckt von den Wolken natürlich weniger grell.
+
+Kamera:
+Hier wirds richtig haarig! Gestalten wir eine wunderschöne randomisierte Szene, durch die man sich durch bewegen kann und von oben drauf schaut?
+Oder erschaffen wir eine Welt, durch die man sich als Benutzer hindruch begibt, wie in einem First-Person-Spiel?
+In diesem Fall müssten wir auch solche Dinge wie Kollisionsabfragen von Kamera und Bäumen im blick behalten, damit man die Objekte nicht durchclipped und von innen sieht.
+In beiden Fällen stellt sich die Frage, wie weit wir/man gehen kann. Feste Szene, oder automatisch generierte Unendliche Welt, in der man sich verlieren kann?
+(Du wirst dir denken können, zu was ich momentan noch tendieren würde, oder? :P )
+
+Soundeffekte:
+Hintergrundmusik (für jede Jahreszeit einen passenden Soundtrack für die Stimmung).
+Umgebungsgeräusche wie (Vogelgetzwischer, jaulende Wölfe im Dunkeln, plätscherndes Wasser, ...)
+Raschelndes Laub/knirschender Schnee, während man sich durch den Wald bewegt (wieder Kollisionsabfrage zwischen Kamera und Waldboden in Abhängigkeit von der Jahreszeit).
+
+
+
+
+	Inspirationen
+Rain-Effect (Herbst)
+https://tympanus.net/Development/RainEffect/
+
+Laub-Effekt (Herbst) / Blossom im Führling
+http://www.bongiovi.tw/experiments/webgl/blossom/
+
+Wasser Effekt
+http://madebyevan.com/webgl-water/
+
+Endlose Bohnenstange
+http://inear.se/beanstalk/
