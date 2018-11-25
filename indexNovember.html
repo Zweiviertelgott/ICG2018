@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>WebGL Example</title>
+		
+		<script id="vertex-shader" type="x-shader/x-vertex">#version 300 es
+			in vec4 vPosition;
+			in vec4 vColor;
+			out vec4 vfColor;
+
+			void main()
+			{
+				const mat4 magicMatrix1 = mat4(
+					0.1767766922712326, -0.0589255653321743, -0.013334667310118675, 0, 0, 0.2357022613286972, -0.006667333655059338, 0, -0.1767766922712326, -0.0589255653321743, -0.013334667310118675, 0, -0, -0, -0.8801880478858948, 1);
+
+				const mat4 magicMatrix2 = mat4(
+					0.1767766922712326, 0, -0.014143549837172031, 0, 0, 0.25, 0, 0, -0.1767766922712326, 0, -0.014143549837172031, 0, -0, -0, -0.9153387546539307, 1);
+					
+				vfColor = vColor;
+				// gl_Position = vPosition;
+				gl_Position = magicMatrix1 * vPosition;
+			}
+		</script>
+		<script id="fragment-shader" type="x-shader/x-fragment">#version 300 es
+			precision mediump float;
+			
+			in vec4 vfColor;
+			out vec4 fColor;
+
+			void main()
+			{
+				fColor = vfColor;
+			}
+		</script>
+		<script type="text/javascript" src="common/initShadersNovember.js"></script>
+		<script type="text/javascript" src="common/objects3DNovember.js"></script>
+	</head>
+	<body>
+		<h1>
+			<marquee scrollamount="20"> Lorem Ipsum ist ja so Neunzehnhundertblumenkohl! <font color=#FF0000>Bacon ipsum </font>dolor amet corned beef officia consequat pancetta, labore exercitation veniam laboris sausage excepteur. Swine aute ut non tenderloin in fugiat. T-bone cow meatloaf, proident meatball short loin dolore eiusmod. Cupidatat nisi elit short ribs ut in. Aliqua in sausage dolore venison, commodo eiusmod adipisicing burgdoggen pig pork ut doner ball tip magna. Ut elit buffalo cupidatat reprehenderit laborum quis aliquip nulla corned beef velit eu tri-tip eiusmod tempor. (Quelle: https://baconipsum.com/?paras=1&type=meat-and-filler&start-with-lorem=1 ) </marquee> </h1>
+		<br> 	<font color=#0000FF>	Authors:			</font> 
+		 <font face="Avalon,Wide Latin">	<font color=#FF0000>	Twelve				</font>	 </font>
+		 und
+		 <font face="Avalon,Wide Latin"> 	<font color=#00C000>	Zweiviertel Gott	</font>	 </font>
+
+		<canvas id="gl-canvas" width="512" height="512">
+			If you see this, your browser doesn't support WebGL.
+		</canvas>
+		
+		<script src="mainNovember.js" type="text/javascript"></script>	
+	</body>
+</html>
