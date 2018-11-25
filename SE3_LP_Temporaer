@@ -1,0 +1,314 @@
+% Autor: Dominik Hauser (6945469), Luke Porr (7031436),
+%        Malte Preut (6363435), Christian Schuler (6449321)
+% Datum: 20.11.2018             Blatt: 04
+% Aufgabe 1: Eigenschaften von Relationen
+% ***************************************
+/**
+         I) "A ist das Geburtsdatum von B"
+Diese Relation ist weder symmetrisch, reflix noch transitiv, denn A (Datum) und
+  B (Name) sind zwei Variablen verschiedener Typen.
+  Unter der Annahme das kein Name einer Person das Format des Datums erfüllt,
+  wird keine dieser Eigenschaften erfüllt.
+Funktionalität in einem der Argumente: Aus "A ist das Geburtsdatum von B" und
+  "C ist das Geburtsdatum von B" muss eindeutig folgen, dass A=C ist. Das heißt,
+  dass die Relation vom Typ 1:m ist. Jedoch ist sie nicht vom Typ m:1, denn
+  mehrere Personen können am gleichen Tag geburtstag haben. Somit ist die
+  Relation funktional in einem der Argumente.
+
+      II) "A ist im Turnier gegen B angetreten"
+Symmetrie: Aus "A ist im Turnier gegen B angetreten" folgt, dass A und B
+  gegeneinander angetreten sind, so ist die Formulierung "B ist im Turnier gegen
+  A angetreten" äquivalent zur ersten. Diese Relation ist also symmetrisch.
+Reflexivität: Bei "A ist im Turnier gegen A angetreten" gehen wir davon aus,
+  dass man in einem Turnier nicht gegen sich selbst antreten kann. So ist diese
+  Relation nicht reflexiv. Sollte das Turnier es möglich machen gegen sich
+  selbst anzutreten, dann wäre die Relation jedoch reflexiv.
+Transitivität: Aus "A ist im Turnier gegen B angetreten" und "B ist im Turnier
+  gegen C angetreten" folgt nicht zwangsweise das A gegen C angetreten ist.
+  Scheidet ein Teilnehmer des Turniers durch eine Niederlage komplett aus, so
+  ist diese Folgerung sogar unmöglich. Diese Relation ist also nicht transitiv.
+Funktionalität in einem der Argumente: Die Relation ist nicht funktional in
+  einem der Argumente, denn (siehe Beispiel aus transitiv) es ist nicht
+  allgemeingültig, dass aus p(A,B) und p(A,C) auch B=C folgen muss (also ist
+  die Relation nicht von Typ m:1, aber auch 1:m ist nicht gegeben, dort ist die
+  Argumentation die selbe).
+
+     III) "A ist eine (echte oder unechte) Teilmenge von B"
+Symmetrie: Die Relation ist nicht symmetrisch, da Symmetrie nur im Speziallfall
+  der Gleichheit herrscht. Also aus A(teilmenge)B und B(teilmenge)A folgt A=B.
+  Ist aber nun A={1,2} und B={1,2,5}, dann herrscht keine symmetrie.
+Reflexivität: Die Relation ist reflexiv, da jede Menge gleich sich selbst ist.
+  Also aus A(teilmenge)A folgt, dass A=B, was für alle Mengen zutrifft.
+Transitivität: Die Relation ist transitiv, da aus A(teilmenge)B und
+  B(teilmenge)C immer folgen muss, dass A(teilmenge)C gilt. (Man kann die
+  Teilmengenrelation auch als kleiner/gleich Relation für Zahlen auffassen,
+  und diese ist bekanntlich transitiv).
+Funktionalität in einem Argument: Die Relation ist nicht funktional in einem
+  Argument, da bei 1:m, also bei p(X,Y) und p(Z,Y) immer noch Z\=X folgen kann.
+  Ebenso verhält es sich bei m:1.
+
+     IV) "A und B spielen eine Rolle im gleichen Film"
+Symmetrie: Die Relation ist symmetrisch, da der Film gleich bleibt und das
+  "und" beidseitig gelesen werden kann.
+Reflexivität: Die Relation ist reflexiv (wenn auch sinnfrei), denn man spielt
+  im selben Film wie man selbst.
+Transitivität: Die Relation ist transitiv, wenn der Film gleich bleibt.
+  Sollten A und B eine Rolle in Film1 spielen und B und C auch eine Rolle in
+  Film1 spielen, so werden auch A und C eine Rolle in Film1 spielen.
+  Wenn aber A und B eine Rolle in Film2 spielen sowie B und C eine Rolle in
+  Film3 spielen, so sagt dies noch nichts darüber aus, ob A in Film 3 oder
+  C in Film2 eine Rolle spielen.
+Funktionalität in einem der Argumente: Da Filme von mehr als 2 Personen gespielt
+  werden, ist die Relation bezüglich 1:m und m:1 nicht allgemeingültig.
+  Aus p(A,B) und p(C,B) folgt noch nicht das A=C ist.
+
+      V) "A ist kongruent zu B"
+(Dabei verstehen wir "kongruent" mathematisch, als teilbar durch eine Zahl mit
+  gleichem Rest)
+Symmetrie: Wenn A und B beim Teilen durch eine Zahl den gleichen Rest ergeben,
+  so ist dies Richtungsunabhängig. Die Relation ist also symmetrisch.
+Reflexivität: A geteilt durch eine Zahl ergiebt einen eindeutigen Rest,
+  daher ist A kongruent zu A und die Relation reflexiv.
+Transitivität: Wenn A kongruent zu B und B kongruent zu C ist, dann wird jeweils
+  der gleiche Rest beim teilen mit der selben Zahl entstehen und somit ist dann
+  auch A kongruent zu C und die Relation ist transitiv.
+Funktionalität in einem der Argumente: Die Relation ist nicht funktional in
+  einem der Argumente, denn wenn A kongruent zu B ist, also p(A,B) und C
+  kongruent zu B, also p(C,B), so kann A=C aber auch A+n=C, also A\=C im
+  letzteren Fall. Somit ist die Relation nicht vom Typ 1:m aber sie ist auch
+  nicht vom Typ m:1 (mit gleicher Argumentation).
+*/
+% Aufgabe 2: Deduktive Datenbanken (3): Hierarchische Strukturen
+% **************************************************************
+:-consult(medien2).
+%                       Aufgabe 2.1)
+%                      ************
+%oberkategorie(?Kategorie,?NameOberkat,?SchlüsselOberkat)
+
+oberkategorie(Kategorie,Name,Schluessel) :-% Prädikat zum finden einer/mehrerer
+                                           % Oberkategorien oder Unterkategorien
+      (kategorie(Kategorie,_,Schluessel),  % Suche schlüssel der Oberkategorie
+      kategorie(Schluessel,Name,_)).       % und gib den Namen dieser zurück.
+oberkategorie(Kategorie,Name,Schluessel) :-% Rekursiver Aufruf für Transitivität
+      (kategorie(Kategorie,_,Ober),        % Prüft ob Oberkat. eine Oberkat. hat
+      oberkategorie(Ober,Name,Schluessel)).% geht wieder zum Anfang fürs Prüfen.
+/**
+?- oberkategorie(Kategorie, OberkatName, Schluessel).
+Kategorie = 4,
+OberkatName = buch,
+Schluessel = 1 ;
+Kategorie = 5,
+OberkatName = ebuch,
+Schluessel = 2
+.......
+
+?- oberkategorie(13,buch,1).
+true.
+*/
+%                       Aufgabe 2.2)
+%                       ************
+%kategorienamen_von_spitze(+Kategorie,?Namensliste)
+kategorienamen_von_spitze(Kategorie,Namensliste) :-
+      (findall(Namen,(kategorie(Kategorie,Namen,_);% Es werden die Namen aller
+      oberkategorie(Kategorie,Namen,X)),           % Produkte gesucht, welche
+      UmgekehrteListe),                            % Unterkat der Kategorie sind
+      reverse(UmgekehrteListe,Namensliste)). % Unifiziert wird von Oben -> Unten
+                                             % Wir möchten die Liste aber von
+                                             % links nach rechts lesen können.
+/**     
+?- kategorienamen_von_spitze(21,Liste).
+Liste = [buch, sachbuch, woerterbuch].
+
+?- kategorienamen_von_spitze(7,[buch, krimi]).
+true.
+*/
+%                       Aufgabe 2.3)
+%                       ************
+%unterkategorie(?Kategorie,?Unterkategorie)
+unterkategorie(Kategorie,Unterkategorie) :-    %
+      kategorie(Unterkategorie,_,Kategorie).   % Abbruchbedingung
+unterkategorie(Kategorie,Unterkategorie) :-    %
+      (kategorie(Unterkategorie,_,Kategorie2), % Prüft, ob die Unterkat. eine
+                                               % Oberkat. hat,
+      unterkategorie(Kategorie,Kategorie2)).   % mit welcher die Abbruchbeding-
+                                               % ung dann erneut geprüft wird.
+
+%produkte_einer_kategorie(?Kategorie, ?Produktliste)
+produkte_einer_kategorie(Kategorie, Produktliste) :-
+      findall([ID,Namen],                   % Sucht alle Paare aus ID und Namen,
+      (produkt(ID,Kategorie,Namen,_,_,_,_); % die laut Prädikat "unterkategorie"
+      produkt(ID,Ukat,Namen,_,_,_,_),       % eine Unterkategorie sind.
+      unterkategorie(Kategorie,Ukat)),      %
+      Produktliste).                        %
+/**     
+?- produkte_einer_kategorie(ID,Liste).
+Liste = [[12345, sonnenuntergang], [12346, hoffnung],
+        [12347, winterzeit], [12348, blutrache],
+        [12349, winterzeit],[23456, sonnenuntergang],
+        [23457, spuren_im_schnee], [23458|...], [...|...]|...].
+
+?- produkte_einer_kategorie(7,Liste).
+Liste = [[12347, winterzeit], [12348, blutrache], [12349, winterzeit]].
+
+?- produkte_einer_kategorie(18, [[12346, hoffnung]]).
+true.
+*/
+%                       Aufgabe 2.4)
+%                       ************
+% verkaufte_produkte_in_kategorie(?Kategorie,?Jahr,?Anzahl)
+% Für korrekte Ergebnisse darf Anzahl nur instanziiert sein,
+% wenn auch Kategorie und Jahr instanziiert ist (Siehe Testfall 3 und 4)
+ verkaufte_produkte_in_kategorie(Kategorie,Jahr,Anzahl) :-% Sucht verkaufte Ein-
+                                                          % heiten einer Kat.
+      findall(Einheiten,                                % Erstellt eine Liste
+      (produkte_einer_kategorie(Kategorie,Produktliste),% aus Paaren, aus der
+      member(Paar,Produktliste),                        % die ID eines jeden
+      member(ID,Paar),                                  % Paares dazu genutzt
+      verkauft(ID,Jahr,_,Einheiten)),                   % wird, die verkauften
+      Einheitenliste),                                  % Einheiten des besagten
+      sum_list(Einheitenliste,Anzahl).                  % Produktes zu finden.
+/**     
+?- verkaufte_produkte_in_kategorie(Kategorie,Jahr,Anzahl).
+Anzahl = 12444.
+
+?- verkaufte_produkte_in_kategorie(Kategorie,2016,Anzahl).
+Anzahl = 1530.
+
+?- verkaufte_produkte_in_kategorie(18,Jahr,Anzahl).
+Anzahl = 362.
+
+?- verkaufte_produkte_in_kategorie(7,2007,430).
+true.
+
+?- verkaufte_produkte_in_kategorie(Kategorie,Jahr,430).
+false.    % Hier unifiziert Jahr nicht mit 2007 und Kategorie nicht mit 7,
+          % obwohl nur dieser eine Eintrag zu 2007 existiert.
+*/
+% Aufgabe 3: Deduktive Datenbanken (2)
+% ************************************
+:-consult(galaxy).
+%                       Aufgabe 3.0)
+%                       ************
+/**
+1. Normalform: Eine Relation (Tabelle) ist in der ersten Normalform (1.NF),
+wenn die Werte der Attribute elementar (atomar) sind, d.h. pro Datenfeld darf
+nur maximal ein Wert enthalten sein.
+2. Normalform: Eine Relation ist in der zweiten Normalform (2.NF), wenn sie sich
+in der 1.NF befindet und jedes nicht zum Primärschlüssel gehörige Attribut voll
+von diesem abhängig ist.
+3. Normalform: Eine Relation befindet sich dann in der dritten Normalform
+(3.NF), wenn sie sich in der 1.NF und in der 2.NF befindet und wenn alle
+Nichtschlüssel-Attribute ausschließlich vom Primärschlüssel funktional abhängig
+sind, und nicht transitiv über ein Nichtschlüssel-Attribut.
+
+Ein Relationstyp befindet sich genau dann in der dritten Normalform (3NF),
+wenn er sich in der zweiten Normalform (2NF) befindet und kein
+Nichtschlüsselattribut transitiv von einem Kandidatenschlüssel abhängt.
+*/
+%                       Aufgabe 3.1)
+%                       ************
+%voraussetzung(?Produkt1,?Produkt2)
+voraussetzung(Produkt1,Produkt2) :-           %
+      arbeitsschritt(Produkt1,_,_,Produkt2).  % Abbruchbedingung
+voraussetzung(Produkt1,Produkt2) :-           %
+      arbeitsschritt(Produkt1,_,_,Produkt3),  % Prüft, ob P1 = Zwischenprodukt
+      voraussetzung(Produkt3,Produkt2).       % und ob dies die Abbruchbedingung
+                                              % erfüllt.
+/**     
+?- voraussetzung(Produkt1,Produkt2).
+Produkt1 = box0815,
+Produkt2 = box0816 ;
+Produkt1 = box0816,
+Produkt2 = box0817 ;
+.....
+
+?- voraussetzung(m17,galaxy2002).
+true.
+*/
+%                       Aufgabe 3.2)
+%                       ************
+% produktionsausfall(?AusgefallenesP, ?EingestelltesP)
+produktionsausfall(AusgefallenesP, EingestelltesP) :-%
+      endprodukt(EingestelltesP),                    % Ist das Eingestellte-P.
+                                                     % ein Endprodukt,
+      voraussetzung(AusgefallenesP,EingestelltesP).  % muss das Ausgefallene-P.
+                                                     % lediglich Voraussetzung
+                                                     % für das Endprodukt sein.
+/**
+****Falls m27 nicht mehr geliefert werden kann,
+    dann können galaxy2001 und galaxy2004 nicht mehr produziert werden****
+?- produktionsausfall(m27,X).
+X = galaxy2001 ;
+X = galaxy2004 ;
+false.
+
+?- produktionsausfall(AusgProdukt,EingestProdukt).
+AusgProdukt = box0817,
+EingestProdukt = galaxy2001 ;
+AusgProdukt = zero_squeezer,
+EingestProdukt = galaxy2001 ;
+.......
+
+?- produktionsausfall(box0815,galaxy2001).
+true.
+*/
+%                       Aufgabe 3.3)
+%                       ************
+%voraussetzung(?Produkt1,+Schritt,?Produkt2)
+voraussetzung(Produkt1,Schritt,Produkt2):-% Bezüglich Produkt 2 wird geprüft:
+      voraussetzung(Produkt1,Produkt2),   % Ob Produkt 1 eine Voraussetzung ist
+      schritt(Produkt1,Schritt,Produkt2). % und es den Arbeitsschritt benötigt.
+
+%schritt(?Produkt1,+Schritt,?Produkt2)
+schritt(Produkt1,Schritt,Produkt2) :-             %
+      arbeitsschritt(Produkt1,_,Schritt,Produkt2).% Abbruchbedingung
+schritt(Produkt1,Schritt,Produkt2):-              %
+      arbeitsschritt(Produkt3,_,_,Produkt2),      % Prüft, ob es ein Produkt
+                                                  % zwischen P1 und P3 gibt,
+      schritt(Produkt1,Schritt,Produkt3).         % welches dann die Abbruchbe-
+                                                  % dingung erfüllt.
+
+%schritt_ausg(+Schritt,?List)
+schritt_ausg(Schritt,List) :-              %
+      findall(Endprodukt,                  % Sucht alle Endprodukte, bei denen
+      (voraussetzung(X,Schritt,Endprodukt),% der Arbeitsschritt eine Voraus-
+      endprodukt(Endprodukt)),             % setzung ist.
+      Liste),                              % Und speichert diese in einer Liste.
+      sort(Liste,List).                    % Zur Duplikatsausslöschung wird die
+                                           % Liste anschließend noch sortiert.
+/**     
+?- schritt_ausg(traumatisator,Liste).
+Liste = [galaxy2002, galaxy2003, galaxy2004].
+
+?- schritt_ausg(stanze,[galaxy2001,galaxy2002, galaxy2003, galaxy2004]).
+true.
+*/
+%                       Aufgabe 3.4)
+%                       ************
+%produktionstiefe(?Zulteil,?Endteil,?Tiefe)
+produktionstiefe(Zulteil,Endteil,Tiefe) :- %
+      zulieferung(Zulteil),                % Zulteil soll Zulieferungsteil sein.
+      endprodukt(Endteil),                 % Endteil soll Endprodukt sein.
+      aggregate_all(count,                 % Zählt alle Schritte, welche
+      (voraussetzung(X,Endteil),           % Vorraussetzung für Endteil sind,
+      voraussetzung(Zulteil,X)),           % aber auch Zulteil als Voraussetzung
+      Anzahl),                             % haben.
+      Tiefe is Anzahl + 1.                 % Da der Schritt vom Zulteil zum 1.
+                                           % Produkt nicht gezählt wird, muss
+                                           % eine 1 hinzuaddiert werden.
+/**     
+?- produktionstiefe(box0815,galaxy2001,Tiefe).
+Tiefe = 3.
+
+?- produktionstiefe(wumme27,galaxy2003,4).
+true.
+
+?- produktionstiefe(Zulteil,Eteil,Tiefe).
+Zulteil = box0815,
+Eteil = galaxy2001,
+Tiefe = 3 ;
+Zulteil = box0815,
+Eteil = galaxy2002,
+Tiefe = 3
+.....
+*/
